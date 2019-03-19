@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>
+   ブログアップデート | ブログ関係記事 | Masa's World
+  </title>
+  <!--<meta name="description" content="masa&#39;s blog">-->
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <link data-turbolinks-track="true" href="d5a2cc4952abf462640f6251becb28c5.css" media="all" rel="stylesheet"/>
+  <script data-turbolinks-track="true" src="0897bca9100de7e0f9a12fa32406bbe5.js">
+  </script>
+  <link href="a3ac983ebd62675a0f7b62917d9987f7.css" media="screen" rel="stylesheet"/>
+  <link href="a94253de813a8b0f59ec67b62396ae63.css" media="screen" rel="stylesheet"/>
+  <meta content="authenticity_token" name="csrf-param">
+   <meta content="tZfxRz5I26lfMY4vAFKxPaO9oCkqgc94n/zHkOZeLjEPksBT2FeipUH2Pw20yxkEPUyzBqdL2xX+26BjQI92xw==" name="csrf-token"/>
+  </meta>
+ </head>
+ <body>
+  <section id="header">
+   <a class="nodec header-title" href="index.html">
+    <!--<div class="header-title"></div>-->
+   </a>
+  </section>
+  <div class="wrapper">
+   <div class="bodyWrapper">
+    <section class="postBody bottomLine">
+     <h1 class="postBody-title">
+      ブログアップデート
+     </h1>
+     <span class="postBody-postInfo">
+      2017/12/16
+      <span class="postBody-category">
+       <span class="postBody-category-colorBox" style="background-color: #9C27B0;">
+       </span>
+       ブログ関係
+      </span>
+     </span>
+     <div class="postBody-body">
+      <p>
+       ついこの間ブログを改善しなきゃということを書いたばっかりだけど、思い立ったが吉日ということでパッとやりたかった部分を終わらせた。
+      </p>
+      <p>
+       まず一つ目は見てお分かりになる通り、記事カテゴリーを追加した。
+      </p>
+      <p>
+       これから「多分」留学以外のことでふと思いついた短いことを多く書くつもりだから、カテゴリー分けして絞り込めるようにしようと思った。
+      </p>
+      <p>
+       カテゴリー一覧はスマホだと一番下に、パソコンだと右側に現れるようにした。
+      </p>
+      <p>
+       ただ、パソコンのほうの見た目がなんかきもいから後々変えるかも。
+      </p>
+      <p>
+       二つ目はページネーションを付けた。
+      </p>
+      <p>
+       記事一覧のページの下の方にある矢印のやつ。
+      </p>
+      <p>
+       記事が多くなってきたから10記事ごとにページ分けすることにした。
+      </p>
+      <p>
+       最後は一番上のロゴ？部分
+      </p>
+      <p>
+       自然を感じられるように適当にデザインしたロゴをつけてみたんだけど、Masa's World部分のフォントがビミョいからこれも変えるかもしれない。
+      </p>
+      <p>
+       あとはスマホ版の文字を少し小さくしたり裏側の編集画面で少し変えたりした。
+      </p>
+      <p>
+       まだデザイン面できもい部分がいくつかあるからこれからちょいちょい変えるつもり。
+      </p>
+      <p>
+       そんな感じでーす！
+      </p>
+     </div>
+    </section>
+    <div class="postComment bottomLine">
+     <form accept-charset="UTF-8" action="/comment?post_id=13" method="post">
+      <input name="utf8" type="hidden" value="✓"/>
+      <input name="authenticity_token" type="hidden" value="pLEfUttJFY1byX8VPgHydgx6ZZKxkU8zH898gzQ9EXcetC5GPVZsgUUOzjeKmFpPkot2vTxbW15+6BtwkuxJgQ=="/>
+      <label for="name">
+       Name
+      </label>
+      <br/>
+      <input class="postComment-textField" id="name" name="name" type="text" value=""/>
+      <span id="postComment-warning" style="color: #F00; display: none;">
+       <br/>
+       Please enter your name.
+      </span>
+      <br/>
+      <br/>
+      <label for="comment">
+       Comment
+      </label>
+      <br/>
+      <textarea class="postComment-textArea" id="comment" name="comment">
+</textarea>
+      <br/>
+      <br/>
+      <input class="button1" data-disable-with="submit" id="submit_comment" name="commit" type="submit" value="submit"/>
+     </form>
+    </div>
+   </div>
+   <script>
+    $("#submit_comment").click(function(event) {
+    if(!$("#name").val()){
+      event.preventDefault()
+      $("#postComment-warning").show()
+    } 
+  })
+   </script>
+  </div>
+ </body>
+</html>

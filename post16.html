@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>
+   Twitterのキーワード検索からワードクラウドを作る | 技術記事 | Masa's World
+  </title>
+  <!--<meta name="description" content="masa&#39;s blog">-->
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <link data-turbolinks-track="true" href="d5a2cc4952abf462640f6251becb28c5.css" media="all" rel="stylesheet"/>
+  <script data-turbolinks-track="true" src="0897bca9100de7e0f9a12fa32406bbe5.js">
+  </script>
+  <link href="a3ac983ebd62675a0f7b62917d9987f7.css" media="screen" rel="stylesheet"/>
+  <link href="a94253de813a8b0f59ec67b62396ae63.css" media="screen" rel="stylesheet"/>
+  <meta content="authenticity_token" name="csrf-param">
+   <meta content="kVYIjVN3v4d4xtbRuEy3ybVPORS965nzYy25NrLv2rRSRb0eOWd5rStNaRHXABura35nFdA/HoGCWUoc3kJ1HQ==" name="csrf-token"/>
+  </meta>
+ </head>
+ <body>
+  <section id="header">
+   <a class="nodec header-title" href="index.html">
+    <!--<div class="header-title"></div>-->
+   </a>
+  </section>
+  <div class="wrapper">
+   <div class="bodyWrapper">
+    <section class="postBody bottomLine">
+     <h1 class="postBody-title">
+      Twitterのキーワード検索からワードクラウドを作る
+     </h1>
+     <span class="postBody-postInfo">
+      2017/12/27
+      <span class="postBody-category">
+       <span class="postBody-category-colorBox" style="background-color: #707070;">
+       </span>
+       技術
+      </span>
+     </span>
+     <div class="postBody-body">
+      <p>
+       最近結構時間があるからいろいろやりたかったことができて楽しい
+      </p>
+      <p>
+       やりたかったことの一つにPythonというプログラミング言語を使ってみることがあった
+      </p>
+      <p>
+       主に機械学習とか統計系のライブラリが豊富で、ほかにもクローラーとかブラウザ操作、ファイル編集など、別に理系職じゃなくても将来使える場面が多そうなスクリプト言語だからちょっと触ってみたいなと前から思ってた
+      </p>
+      <p>
+       それで作ってみたのがタイトル通り、Twitter APIからキーワードに関連するツイートを取ってきて、ちょっと前流行ったワードクラウドを生成するというもの
+      </p>
+      <p>
+       Twitterって、文字通り思ったことを気軽に「つぶやく」ことができる場だから、人々の思ってることが結構情報として集まってるんじゃないかなと思って前からちょっとやってみたかった
+      </p>
+      <p>
+       Twitter APIは無料枠だと直近7日間の最新100ツイートしかとれないから数が少ないし、最新100ツイートのタイムスパンはかなり短いから結構データとしては偏ってると思う
+      </p>
+      <p>
+       形容詞で検索したらそれに関する名詞が集まって面白いかなと思っていくつか形容詞で検索してみた
+      </p>
+      <p>
+       「寒い」
+      </p>
+      <a href="/images/post_images/2017-12-27T23:19:38+00:00samui.png">
+       <img class="postBody-image shadow1-h" src="c1767723220c736571df64059858bdc8.png" style="width: 400; height: 200;"/>
+      </a>
+      <p>
+       「使いにくい」
+      </p>
+      <a href="/images/post_images/2017-12-27T23:19:50+00:00tukainikui.png">
+       <img class="postBody-image shadow1-h" src="b91e3c9f7e1a1149e0bad2bc6ed27a68.png" style="width: 400; height: 200;"/>
+      </a>
+      <p>
+       「だるい」
+      </p>
+      <a href="/images/post_images/2017-12-27T23:20:02+00:00darui.png">
+       <img class="postBody-image shadow1-h" src="ca029b5bf8a5fc27e4a03f73f87206fc.png" style="width: 400; height: 200;"/>
+      </a>
+      <p>
+       「うっとうしい」
+      </p>
+      <a href="/images/post_images/2017-12-27T23:20:11+00:00uttoosii.png">
+       <img class="postBody-image shadow1-h" src="d5a3b5d28d2e5cb27d65231d4c6457ab.png" style="width: 400; height: 200;"/>
+      </a>
+      <p>
+       マイナスな形容詞をばっかだけど、プラスな形容詞とか、地名とかで検索しても面白かった
+      </p>
+      <p>
+       こんなんが素人の自分でもすぐ作れちゃうのはすごい時代だなぁと思った
+      </p>
+      <p>
+       最先端の技術が簡単に使える中で、それをどう価値を生み出せるものにするかっていうのが大事やなっていうのも感じた
+      </p>
+      <p>
+       最後に、参考までに今回のコードになります
+      </p>
+      <pre class="sourceCode">
+<code>
+import sys
+import twitter
+from janome.tokenizer import Tokenizer
+from wordcloud import WordCloud
+
+search_target = sys.argv[1]
+hinshi = sys.argv[2] if len(sys.argv) &gt; 2 else "名詞"
+
+api =  twitter.Api(consumer_key='******',
+                  consumer_secret='******',
+                  access_token_key='******',
+                  access_token_secret='******')
+search_results = api.GetSearch(term=search_target, result_type="recent", count=100)
+
+print(len(search_results))
+
+tokenizer = Tokenizer()
+
+separated_text = ""
+for search_result in search_results:
+    for token in tokenizer.tokenize(search_result.text):
+        if token.part_of_speech.split(',')[0] == hinshi:
+            separated_text += token.base_form + " "
+
+wordCloud = WordCloud(font_path="C:\\Users\\Masato\\Downloads\\KokuMaruMinchoKana-Regular.otf",
+                      stopwords={search_target, "RT", "https", "http", "co", "こと", "それ", "さん", "する", "いる", "です", "れる",\
+                                 u'てる', u'いる', u'なる', u'れる', u'する', u'ある', u'こと', u'これ', u'さん', u'して', \
+                                 u'くれる', u'やる', u'くださる', u'そう', u'せる', u'した',  u'思う',  \
+                                 u'それ', u'ここ', u'ちゃん', u'くん', u'', u'て',u'に',u'を',u'は',u'の', u'が', u'と', u'た', u'し', u'で', \
+                                 u'ない', u'も', u'な', u'い', u'か', u'ので', u'よう', u'', "き", "どれ", "とき", "あれ", "もの"},
+                      background_color="white").generate(separated_text)
+
+wordCloud.to_file("C:\\Users\\Masato\\Desktop\\word_cloud.png")
+</code>
+</pre>
+     </div>
+    </section>
+    <div class="postComment bottomLine">
+     <form accept-charset="UTF-8" action="/comment?post_id=16" method="post">
+      <input name="utf8" type="hidden" value="✓"/>
+      <input name="authenticity_token" type="hidden" value="7E19OkFN9VmR6lGJwBbHXRUG7BpWR15QYv3MMHLqfj8vXsipK10zc8Jh7kmvWms/yzeyGzuT2SKDiT8aHkfRlg=="/>
+      <label for="name">
+       Name
+      </label>
+      <br/>
+      <input class="postComment-textField" id="name" name="name" type="text" value=""/>
+      <span id="postComment-warning" style="color: #F00; display: none;">
+       <br/>
+       Please enter your name.
+      </span>
+      <br/>
+      <br/>
+      <label for="comment">
+       Comment
+      </label>
+      <br/>
+      <textarea class="postComment-textArea" id="comment" name="comment">
+</textarea>
+      <br/>
+      <br/>
+      <input class="button1" data-disable-with="submit" id="submit_comment" name="commit" type="submit" value="submit"/>
+     </form>
+    </div>
+   </div>
+   <script>
+    $("#submit_comment").click(function(event) {
+    if(!$("#name").val()){
+      event.preventDefault()
+      $("#postComment-warning").show()
+    } 
+  })
+   </script>
+  </div>
+ </body>
+</html>
